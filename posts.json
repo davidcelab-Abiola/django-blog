@@ -1,0 +1,27 @@
+[
+  {
+    "title": "First Blog Post",
+    "content": "This is your first blog post. Welcome to your Django blog project. This is where your journey begins as a developer.",
+    "date_posted": "2024-06-23T12:00:00Z"
+  },
+  {
+    "title": "Second Blog Post",
+    "content": "Django makes it easier to build powerful web applications quickly. You are learning how to structure real-world projects.",
+    "date_posted": "2024-06-24T14:30:00Z"
+  },
+  {
+    "title": "Third Blog Post",
+    "content": "Templates, models, and views are the core of Django. Understanding them well will make you a strong backend developer.",
+    "date_posted": "2024-06-25T09:15:00Z"
+  },
+  {
+    "title": "Fourth Blog Post",
+    "content": "You can now create users, profiles, and posts. This is already a complete system like a real blog platform.",
+    "date_posted": "2024-06-26T18:45:00Z"
+  },
+  {
+    "title": "Fifth Blog Post",
+    "content": "Next step is to improve your UI and deploy your project so others can see it online. Keep pushing forward.",
+    "date_posted": "2024-06-27T11:00:00Z"
+  }
+]
