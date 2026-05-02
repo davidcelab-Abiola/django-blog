@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 import os.path
 from pathlib import Path
+import dj_database_url
 
 from django.conf.global_settings import LOGIN_REDIRECT_URL, MEDIA_ROOT, MEDIA_URL
 
@@ -27,7 +28,8 @@ SECRET_KEY = 'django-insecure-3e2z$2lr&274v3xtkevd&v)%dbwzmr-x+#!^g-@g*%plvuu3&4
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['david-blog-xpdk.onrender.com']
+ALLOWED_HOSTS = ['david-blog-xpdk.onrender.com',
+                 'localhost']
 
 
 # Application definition
@@ -81,10 +83,7 @@ WSGI_APPLICATION = 'django_app.wsgi.application'
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.parse('postgresql://django_db_tvll_user:fNLO6LiYezaKwbMGD6gyDw2cPLcxzQPJ@dpg-d7q7q377f7vs73co6kq0-a/django_db_tvll')
 }
 
 
