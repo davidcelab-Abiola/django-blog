@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 import os.path
 from pathlib import Path
 import dj_database_url
+from django.contrib.auth import get_user_model
 
 from django.conf.global_settings import LOGIN_REDIRECT_URL, MEDIA_ROOT, MEDIA_URL
 
@@ -157,3 +158,14 @@ EMAIL_HOST_PASSWORD = 'svzawzcdbxcvqmzc'
 
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+
+
+User = get_user_model()
+
+if not User.objects.filter(username="admin").exists():
+    User.objects.create_superuser(
+        username="admin",
+        email="your_email@gmail.com",
+        password="yourpassword"
+    )
