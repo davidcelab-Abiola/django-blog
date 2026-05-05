@@ -134,8 +134,8 @@ STATICFILES_DIRS = [
 ]
 
 # MEDIA FILES (PROFILE PICTURES)
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# MEDIA_URL = '/media/'
 
 # CRISPY FORMS
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -167,5 +167,4 @@ cloudinary.config(
     api_key="133689193787978",
     api_secret="3wi9vJbzb7mFOZcyLo61GyYSF8g"
 )
-
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
