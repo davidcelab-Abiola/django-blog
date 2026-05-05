@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 import os.path
 from pathlib import Path
 import dj_database_url
+import cloudinary
+
 
 from django.conf.global_settings import LOGIN_REDIRECT_URL, MEDIA_ROOT, MEDIA_URL
 
@@ -45,6 +47,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cloudinary',
+    'cloudinary_storage',
 ]
 
 MIDDLEWARE = [
@@ -157,3 +161,11 @@ EMAIL_HOST_PASSWORD = 'svzawzcdbxcvqmzc'
 
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+cloudinary.config(
+    cloud_name="diivj1fs9",
+    api_key="133689193787978",
+    api_secret="3wi9vJbzb7mFOZcyLo61GyYSF8g"
+)
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
