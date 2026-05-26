@@ -52,6 +52,7 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         if self.request.user == post.author:
             return True
         else:
+            
             return False
 
 class PostCreateView(LoginRequiredMixin, CreateView):
