@@ -97,6 +97,8 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+MEDIA_URL = '/media/'
+
 # CLOUDINARY CONFIG
 cloudinary.config(
     cloud_name="diivj1fs9",
@@ -120,4 +122,4 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'davidcelab@gmail.com'
-EMAIL_HOST_PASSWORD = 'svzawzcdbxcvqmzc'
+EMAIL_HOST_PASSWORD = 'qmarlxkykzrvaspk'

@@ -1,25 +1,52 @@
 {% extends "blog/base.html" %}
+{% load static %}
+
 {% block content %}
+<div class="tiktok-feed">
+    <div class="tiktok-card">
 
-<article class="media content-section">
-    <img src="{{ post.author.profile.image.url }}" class="profile-img">
-
-    <div class="media-body">
-        <div class="article-metadata">
-            <a class="mr-2" href="#">{{ object.author.username }}</a>
-            <small class="text-muted">{{ object.date_posted|date:"F d, Y" }}</small>
-            {% if object.author == user %}
-                <div>
-                    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'post-update' object.id %}">Update</a>
-                    <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'post-delete' object.id %}">Delete</a>
-                </div>
-
-            {% endif %}
+        <div class="user-info">
+            <img src="{{ post.author.profile.image.url|default:'https://via.placeholder.com/50' }}" class="avatar">
+            <div>
+                <a href="{% url 'user-posts' post.author.username %}" class="username-link">
+                    <b>{{ post.author.username }}</b>
+                </a>
+                <small>{{ post.date_posted|date:"M d" }}</small>
+            </div>
         </div>
 
-        <h2 class="article-title">{{ object.title }}</h2>
-        <p class="article-content">{{ object.content }}</p>
-    </div>
-</article>
+        <h3>{{ post.title }}</h3>
 
-{% endblock content %}
+        {% if post.image %}
+            <img src="{{ post.image.url }}" alt="{{ post.title }}" class="post-image">
+        {% endif %}
+
+        <p>{{ post.content }}</p>
+
+        <div class="floating-actions">
+            <form action="{% url 'like-post' post.id %}" method="POST" style="display:inline-block;">
+                {% csrf_token %}
+                <button type="submit" class="icon-btn">
+                    {% if user in post.likes.all %}❤️{% else %}🤍{% endif %}
+                    <span>{{ post.likes.count }}</span>
+                </button>
+            </form>
+        </div>
+
+        <!-- Comments -->
+        <div class="comments-box show">
+            {% for comment in post.comments.all %}
+                <p><b>{{ comment.author.username }}</b>: {{ comment.content }}</p>
+            {% empty %}
+                <p>No comments yet</p>
+            {% endfor %}
+
+            <form action="{% url 'add-comment' post.id %}" method="POST">
+                {% csrf_token %}
+                <input type="text" name="content" placeholder="Add a comment..." required>
+                <button type="submit">Post</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

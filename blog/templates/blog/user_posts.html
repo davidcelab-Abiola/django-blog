@@ -1,0 +1,70 @@
+{% extends "blog/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="tiktok-feed">
+    <h2 class="mb-4">Posts by <strong>@{{ username }}</strong></h2>
+
+    {% for post in posts %}
+    <div class="tiktok-card">
+
+        <div class="user-info">
+            <img src="{{ post.author.profile.image.url|default:'https://via.placeholder.com/50' }}" class="avatar">
+            <div>
+                <a href="{% url 'user-posts' post.author.username %}" class="username-link">
+                    <b>{{ post.author.username }}</b>
+                </a>
+                <small>{{ post.date_posted|date:"M d" }}</small>
+            </div>
+        </div>
+
+        <a href="{% url 'post-detail' post.pk %}" class="post-title-link">
+            <h4>{{ post.title }}</h4>
+        </a>
+
+        {% if post.image %}
+            <img src="{{ post.image.url }}" alt="{{ post.title }}" class="post-image">
+        {% endif %}
+
+        <p>{{ post.content }}</p>
+
+        <div class="floating-actions">
+            <form action="{% url 'like-post' post.id %}" method="POST" style="display:inline-block;">
+                {% csrf_token %}
+                <button type="submit" class="icon-btn">
+                    {% if user in post.likes.all %}❤️{% else %}🤍{% endif %}
+                    <span>{{ post.likes.count }}</span>
+                </button>
+            </form>
+
+            <button class="icon-btn" onclick="toggleComments({{ post.id }})">
+                💬 <span>{{ post.comments.count }}</span>
+            </button>
+        </div>
+
+        <div id="comments-{{ post.id }}" class="comments-box">
+            {% for comment in post.comments.all %}
+                <p><b>{{ comment.author.username }}</b>: {{ comment.content }}</p>
+            {% empty %}
+                <p>No comments yet</p>
+            {% endfor %}
+
+            <form action="{% url 'add-comment' post.id %}" method="POST">
+                {% csrf_token %}
+                <input type="text" name="content" placeholder="Add comment..." required>
+                <button type="submit">Post</button>
+            </form>
+        </div>
+
+    </div>
+    {% empty %}
+        <p>No posts yet from this user.</p>
+    {% endfor %}
+</div>
+
+<script>
+function toggleComments(id) {
+    document.getElementById("comments-" + id).classList.toggle("show");
+}
+</script>
+{% endblock %}

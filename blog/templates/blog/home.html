@@ -1,43 +1,66 @@
 {% extends "blog/base.html" %}
+{% load static %}
+
 {% block content %}
-
+<div class="tiktok-feed">
     {% for post in posts %}
-    <article class="media content-section">
-        <img src="{{ post.author.profile.image.url }}" class="profile-img">
+    <div class="tiktok-card">
 
-        <div class="media-body">
-            <div class="article-metadata">
-                <a class="mr-2" href="{% url 'user-posts' post.author.username %}">{{ post.author.username }}</a>
-                <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
+        <div class="user-info">
+            <img src="{{ post.author.profile.image.url|default:'https://via.placeholder.com/50' }}" class="avatar">
+            <div>
+                <a href="{% url 'user-posts' post.author.username %}" class="username-link">
+                    <b>{{ post.author.username }}</b>
+                </a>
+                <small>{{ post.date_posted|date:"M d" }}</small>
             </div>
-
-            <h2>
-                <a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a>
-            </h2>
-
-            <p class="article-content">{{ post.content }}</p>
         </div>
-    </article>
+
+        <a href="{% url 'post-detail' post.pk %}" class="post-title-link">
+            <h4>{{ post.title }}</h4>
+        </a>
+
+        {% if post.image %}
+            <img src="{{ post.image.url }}" alt="{{ post.title }}" class="post-image">
+        {% endif %}
+
+        <p>{{ post.content }}</p>
+
+        <div class="floating-actions">
+            <form action="{% url 'like-post' post.id %}" method="POST" style="display:inline-block;">
+                {% csrf_token %}
+                <button type="submit" class="icon-btn">
+                    {% if user in post.likes.all %}❤️{% else %}🤍{% endif %}
+                    <span>{{ post.likes.count }}</span>
+                </button>
+            </form>
+
+            <button class="icon-btn" onclick="toggleComments({{ post.id }})">
+                💬 <span>{{ post.comments.count }}</span>
+            </button>
+        </div>
+
+        <div id="comments-{{ post.id }}" class="comments-box">
+            {% for comment in post.comments.all %}
+                <p><b>{{ comment.author.username }}</b>: {{ comment.content }}</p>
+            {% empty %}
+                <p>No comments yet</p>
+            {% endfor %}
+
+            <form action="{% url 'add-comment' post.id %}" method="POST">
+                {% csrf_token %}
+                <input type="text" name="content" placeholder="Add comment..." required>
+                <button type="submit">Post</button>
+            </form>
+        </div>
+
+    </div>
     {% endfor %}
+</div>
 
-    {% if is_paginated %}
-        {% if page_obj.has_previous %}
-            <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
-            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
-        {% endif %}
-
-        {% for num in page_obj.paginator.page_range %}
-            {% if page_obj.number == num %}
-                <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
-            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-                <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
-            {% endif %}
-        {% endfor %}
-
-        {% if page_obj.has_next %}
-            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
-            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
-        {% endif %}
-    {% endif %}
-
-{% endblock content %}
+<script>
+function toggleComments(id) {
+    document.getElementById("comments-" + id).classList.toggle("show");
+}
+</script>
+{% endblock %}
