@@ -62,18 +62,14 @@ TEMPLATES = [
 WSGI_APPLICATION = 'django_app.wsgi.application'
 
 # DATABASE (FIXED)
+import dj_database_url
+import os
+
 if os.environ.get('RENDER'):
     DATABASES = {
         'default': dj_database_url.config(
-            default=os.environ.get('postgresql://david_blog_db_vjda_user:6bqp7EJER12dISO9uukAUohTEgCqKMcA@dpg-d8fr6857vvec739hcohg-a/david_blog_db_vjda')
+            default=os.environ.get('DATABASE_URL')
         )
-    }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
     }
 
 # PASSWORD VALIDATION
