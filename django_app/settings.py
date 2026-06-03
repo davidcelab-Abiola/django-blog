@@ -64,8 +64,8 @@ WSGI_APPLICATION = 'django_app.wsgi.application'
 # DATABASE (FIXED)
 if os.environ.get('RENDER'):
     DATABASES = {
-        'default': dj_database_url.parse(
-            'postgresql://django_db_tvll_user:fNLO6LiYezaKwbMGD6gyDw2cPLcxzQPJ@dpg-d7q7q377f7vs73co6kq0-a/django_db_tvll'
+        'default': dj_database_url.config(
+            default=os.environ.get('postgresql://david_blog_db_vjda_user:6bqp7EJER12dISO9uukAUohTEgCqKMcA@dpg-d8fr6857vvec739hcohg-a/david_blog_db_vjda')
         )
     }
 else:
