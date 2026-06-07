@@ -306,3 +306,18 @@ body.light-mode .alert-info {
     background-color: #111;
     color: white;
 }
+/* Better Create Post Alignment */
+.create-post-card .mb-4 {
+    margin-bottom: 1.5rem !important;
+}
+
+.create-post-card label {
+    font-weight: 600;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.create-post-card .form-control,
+.create-post-card textarea {
+    width: 100%;
+}
