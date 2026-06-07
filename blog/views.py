@@ -40,7 +40,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-# ✏️ UPDATE
+
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
     fields = ['title', 'content', 'image']
@@ -50,7 +50,7 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return self.request.user == post.author
 
 
-# 🗑️ DELETE
+
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
     success_url = reverse_lazy('blog-home')
@@ -60,7 +60,7 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return self.request.user == post.author
 
 
-# ❤️ LIKE FUNCTION
+
 def like_post(request, pk):
     post = get_object_or_404(Post, id=pk)
 
@@ -73,7 +73,7 @@ def like_post(request, pk):
     return redirect('post-detail', pk=pk)
 
 
-# 💬 COMMENT FUNCTION
+
 def add_comment(request, pk):
     post = get_object_or_404(Post, id=pk)
 
@@ -89,6 +89,6 @@ def add_comment(request, pk):
     return redirect('post-detail', pk=pk)
 
 
-# ℹ️ ABOUT PAGE
+
 def about(request):
     return render(request, 'blog/about.html', {'title': 'About'})

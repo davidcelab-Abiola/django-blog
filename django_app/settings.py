@@ -3,16 +3,17 @@ import os
 import dj_database_url
 import cloudinary
 
-# BASE DIR (MUST BE FIRST)
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# SECURITY
-SECRET_KEY = 'django-insecure-3e2z$2lr&274v3xtkevd&v)%dbwzmr-x+#!^g-@g*%plvuu3&4'
-DEBUG = True
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-3e2z$2lr&274v3xtkevd&v)%dbwzmr-x+#!^g-@g*%plvuu3&4')
 
-ALLOWED_HOSTS = ['david-blog-xpdk.onrender.com', 'localhost']
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
-# INSTALLED APPS
+ALLOWED_HOSTS = ['david-blog-xpdk.onrender.com', 'localhost', '127.0.0.1']
+
+if os.environ.get('RENDER_EXTERNAL_HOSTNAME'):
+    ALLOWED_HOSTS.append(os.environ.get('RENDER_EXTERNAL_HOSTNAME'))
+
 INSTALLED_APPS = [
     'blog.apps.BlogConfig',
     'users.apps.UsersConfig',
@@ -28,7 +29,6 @@ INSTALLED_APPS = [
     'cloudinary_storage',
 ]
 
-# MIDDLEWARE
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -42,7 +42,6 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'django_app.urls'
 
-# TEMPLATES
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -61,18 +60,18 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'django_app.wsgi.application'
 
-# DATABASE (FIXED)
-import dj_database_url
-import os
-
 if os.environ.get('RENDER'):
     DATABASES = {
-        'default': dj_database_url.config(
-            default=os.environ.get('DATABASE_URL')
-        )
+        'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))
+    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
 
-# PASSWORD VALIDATION
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
@@ -80,45 +79,32 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-# INTERNATIONAL
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# STATIC FILES
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_DIRS = [BASE_DIR / "static"]
-
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-
-
-# CLOUDINARY CONFIG
 cloudinary.config(
-    cloud_name="diivj1fs9",
-    api_key="133689193787978",
-    api_secret="3wi9vJbzb7mFOZcyLo61GyYSF8g"
+    cloud_name=os.environ.get('CLOUDINARY_CLOUD_NAME', 'diivj1fs9'),
+    api_key=os.environ.get('CLOUDINARY_API_KEY', '133689193787978'),
+    api_secret=os.environ.get('CLOUDINARY_API_SECRET', '3wi9vJbzb7mFOZcyLo61GyYSF8g')
 )
-
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
-# CRISPY FORMS
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-# LOGIN
 LOGIN_REDIRECT_URL = 'blog-home'
 LOGOUT_REDIRECT_URL = 'blog-home'
 LOGIN_URL = 'login'
 
-# EMAIL
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-
-EMAIL_HOST_USER = 'davidcelab@gmail.com'
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', 'davidcelab@gmail.com')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
