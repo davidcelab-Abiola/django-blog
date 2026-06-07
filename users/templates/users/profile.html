@@ -10,16 +10,17 @@
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
 
-            <!-- Profile Picture Upload -->
+            <!-- Profile Picture -->
             <div class="text-center mb-4">
                 {% if user.profile.image %}
-                    <img src="{{ user.profile.image.url }}" alt="Profile" class="profile-avatar mb-3">
+                    <img src="{{ user.profile.image.url }}" alt="Profile" class="profile-avatar">
                 {% else %}
-                    <div class="profile-avatar-placeholder mb-3">👤</div>
+                    <div class="profile-avatar-placeholder">👤</div>
                 {% endif %}
 
+                <br><br>
                 <label class="custom-file-upload">
-                    📸 Choose Profile Picture
+                     Choose Profile Picture
                     <input type="file" name="image" accept="image/*">
                 </label>
             </div>
@@ -37,11 +38,11 @@
             </div>
 
             <button type="submit" class="btn btn-post w-100 mb-3">
-                 Save Changes
+                Save Changes
             </button>
         </form>
 
-        <div class="text-center">
+        <div class="text-center mt-3">
             <a href="{% url 'password_reset' %}" class="btn btn-outline-light">
                  Change Password
             </a>
