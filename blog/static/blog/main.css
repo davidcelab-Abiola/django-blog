@@ -321,3 +321,31 @@ body.light-mode .alert-info {
 .create-post-card textarea {
     width: 100%;
 }
+
+/* Better Create Post Alignment & Responsive */
+.create-post-card .mb-4 {
+    margin-bottom: 1.75rem;
+}
+
+.create-post-card label {
+    font-weight: 600;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.create-post-card .form-control,
+.create-post-card textarea {
+    width: 100%;
+    padding: 14px 16px;
+}
+
+@media (max-width: 576px) {
+    .create-post-card {
+        padding: 20px 15px;
+        margin: 10px 8px;
+    }
+
+    .create-post-title {
+        font-size: 1.7rem;
+    }
+}

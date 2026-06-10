@@ -6,26 +6,23 @@
     <div class="create-post-card">
 
         <div class="text-center mb-5">
-            <h2 class="create-post-title"> Create New Post</h2>
+            <h2 class="create-post-title">✍Create New Post</h2>
             <p class="text-muted">Share your thoughts with the community</p>
         </div>
 
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
 
-            <!-- Title -->
             <div class="mb-4">
                 <label class="form-label">Title <span class="text-danger">*</span></label>
                 {{ form.title }}
             </div>
 
-            <!-- Content -->
             <div class="mb-4">
                 <label class="form-label">Content <span class="text-danger">*</span></label>
                 {{ form.content }}
             </div>
 
-            <!-- Image Upload -->
             <div class="mb-4">
                 <label class="form-label">Upload Image (Optional)</label>
                 <div class="image-upload-area">
@@ -34,7 +31,7 @@
             </div>
 
             <button type="submit" class="btn btn-post w-100">
-                Post Now
+                 Post Now
             </button>
         </form>
 
