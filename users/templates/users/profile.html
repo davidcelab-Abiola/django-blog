@@ -18,27 +18,28 @@
                     <div class="profile-avatar-placeholder">👤</div>
                 {% endif %}
 
-                <br><br>
-                <label class="custom-file-upload">
-                     Choose Profile Picture
-                    <input type="file" name="image" accept="image/*">
-                </label>
+                <div class="mt-3">
+                    <label class="custom-file-upload">
+                         Change Profile Picture
+                        {{ p_form.image }}
+                    </label>
+                </div>
             </div>
 
-            <!-- Username -->
-            <div class="mb-3">
-                <label class="form-label">Username</label>
-                <input type="text" name="username" class="form-control" value="{{ user.username }}">
-            </div>
-
-            <!-- Email -->
-            <div class="mb-4">
-                <label class="form-label">Email Address</label>
-                <input type="email" name="email" class="form-control" value="{{ user.email }}">
+            <!-- Username & Email using forms -->
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Username</label>
+                    {{ u_form.username }}
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Email Address</label>
+                    {{ u_form.email }}
+                </div>
             </div>
 
             <button type="submit" class="btn btn-post w-100 mb-3">
-                Save Changes
+                 Save Changes
             </button>
         </form>
 
