@@ -8,16 +8,16 @@ class UsersConfig(AppConfig):
         import users.signals
 
         from django.contrib.auth.models import User
-        from django.db.utils import OperationalError
 
         try:
-            # Create superuser only if it doesn't exist
-            if not User.objects.filter(username='gmiadmin').exists():
-                User.objects.create_superuser(
-                    username='gmiadmin',
-                    email='admin@gmail.com',
-                    password='GmiPass123!'
-                )
-                print("Superuser 'gmiadmin' created successfully.")
-        except OperationalError:
+            # Only create if it doesn't exist (safer)
+            User.objects.get_or_create(
+                username='gmiadmin',
+                defaults={
+                    'email': 'admin@gmail.com',
+                    'is_staff': True,
+                    'is_superuser': True,
+                }
+            )
+        except Exception:
             pass
