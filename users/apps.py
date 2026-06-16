@@ -11,14 +11,13 @@ class UsersConfig(AppConfig):
         from django.db.utils import OperationalError
 
         try:
-            # Create superuser automatically if it doesn't exist
+            # Create superuser only if it doesn't exist
             if not User.objects.filter(username='gmiadmin').exists():
                 User.objects.create_superuser(
-                    username='David',
-                    email='davidcelab@gmail.com',
-                    password='osapolo;'
+                    username='gmiadmin',
+                    email='admin@gmail.com',
+                    password='GmiPass123!'
                 )
-                print("Superuser created successfully.")
+                print("Superuser 'gmiadmin' created successfully.")
         except OperationalError:
-            # Ignore during migrations
             pass
