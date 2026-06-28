@@ -25,12 +25,12 @@ class UserPostListView(ListView):
         return Post.objects.filter(author=user).order_by('-date_posted')
 
 
-# 📄 DETAIL
+
 class PostDetailView(DetailView):
     model = Post
 
 
-# ➕ CREATE
+
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
     fields = ['title', 'content', 'image']
